@@ -1,0 +1,198 @@
+
+/*
+ * This file contains custom styles that complement Tailwind CSS.
+ * Most styles have been replaced with Tailwind utility classes directly in the HTML.
+ * Only keeping styles that cannot be easily represented with Tailwind classes.
+ */
+
+/* Custom text color utilities for EnergiWatch */
+.text-energy-blue {
+  color: #4C7CE5 !important;
+}
+.text-solar-yellow {
+  color: #F0C044 !important;
+}
+
+
+/* Sticky bill overview section */
+#billOverviewSection {
+  position: sticky;
+  top: 1.5rem; /* Adjust this value based on header height */
+  align-self: flex-start;
+  max-height: calc(100vh - 3rem); /* Adjust viewport height calculation as needed */
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e0 #f7fafc; /* For Firefox */
+}
+
+/* For Webkit browsers (Chrome, Safari) */
+#billOverviewSection::-webkit-scrollbar {
+  width: 6px;
+}
+
+#billOverviewSection::-webkit-scrollbar-track {
+  background: #f7fafc;
+  border-radius: 3px;
+}
+
+#billOverviewSection::-webkit-scrollbar-thumb {
+  background-color: #cbd5e0;
+  border-radius: 3px;
+}
+
+/* Dark mode scrollbar */
+.dark #billOverviewSection::-webkit-scrollbar-track {
+  background: #2d3748;
+}
+
+.dark #billOverviewSection::-webkit-scrollbar-thumb {
+  background-color: #4a5568;
+}
+
+/* Custom dark mode colors for specific elements */
+.dark h1 {
+  color: #e2e8f0;
+  border-bottom-color: #4a5568;
+}
+
+.dark h2 {
+  color: #a0aec0;
+  border-left-color: #38b2ac;
+}
+
+.dark h3 {
+  color: #4fd1c5;
+}
+
+.dark h4, .dark h5, .dark h6 {
+  color: #a0aec0;
+}
+
+.dark pre, .dark code {
+  background: #2d3748;
+  color: #e2e8f0;
+}
+
+.dark th, .dark td {
+  border-color: #4a5568;
+}
+
+/* Custom styles for markdown-rendered recommendations */
+/* Paragraph spacing */
+.prose p {
+  margin-bottom: 1.5em;
+}
+
+/* Custom heading styles for AI-generated content */
+.prose h1 {
+  font-size: 1.75em;
+  font-weight: 700;
+  margin-top: 1.5em;
+  margin-bottom: 0.75em;
+  color: #2b3a55;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 0.3em;
+}
+
+.prose h2 {
+  font-size: 1.5em;
+  font-weight: 600;
+  margin-top: 1.2em;
+  margin-bottom: 0.6em;
+  color: #3a506b;
+}
+
+.prose h3 {
+  font-size: 1.25em;
+  font-weight: 600;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  color: #3c8aea;
+}
+
+.prose h4 {
+  font-size: 1.1em;
+  font-weight: 600;
+  margin-top: 0.8em;
+  margin-bottom: 0.4em;
+  color: #6c757d;
+}
+
+/* Dark mode overrides for AI-generated content */
+.dark .prose h1 {
+  color: #e2e8f0;
+  border-bottom-color: #4a5568;
+}
+
+.dark .prose h2 {
+  color: #a0aec0;
+}
+
+.dark .prose h3 {
+  color: #4fd1c5;
+}
+
+.dark .prose h4 {
+  color: #a0aec0;
+}
+
+/* Custom styles for lists in AI-generated content */
+.prose ul, .prose ol {
+  margin-top: 0.8em;
+  margin-bottom: 1.2em;
+  padding-left: 1.5em;
+}
+
+.prose li {
+  margin-bottom: 0.5em;
+  line-height: 1.6;
+}
+
+.prose ul li {
+  list-style-type: disc;
+}
+
+.prose ol li {
+  list-style-type: decimal;
+}
+
+.prose ul li::marker {
+  color: #5bc0be;
+}
+
+.dark .prose ul li::marker {
+  color: #38b2ac;
+}
+
+/* Add emphasis to important text */
+.prose strong, .prose b {
+  font-weight: 700;
+  color: #2b3a55;
+}
+
+.dark .prose strong, .dark .prose b {
+  color: #e2e8f0;
+}
+
+.prose em, .prose i {
+  font-style: italic;
+  color: #3a506b;
+}
+
+.dark .prose em, .dark .prose i {
+  color: #a0aec0;
+}
+
+/* Custom styles for code blocks that might appear in recommendations */
+.prose pre, .prose code {
+  font-family: 'Fira Mono', 'Consolas', 'Monaco', monospace;
+  font-size: 0.95em;
+  background: #f4f4f4;
+  border-radius: 4px;
+  padding: 0.2em 0.5em;
+}
+
+.dark .prose pre, .dark .prose code {
+  background: #2d3748;
+  color: #e2e8f0;
+}

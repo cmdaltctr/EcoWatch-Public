@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles to enhance Tailwind */
+
+/* Dark mode toggle button */
+#darkModeToggle {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#darkModeIcon {
+    font-size: 1.25rem;
+    transition: transform 0.2s ease;
+}
+
+#darkModeToggle:hover #darkModeIcon {
+    transform: scale(1.1);
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Custom input styles */
+input {
+    color: #1f2937; /* Default dark text color */
+}
+
+input.dark {
+    color: #f9fafb; /* Light text color for dark mode */
+}
+
+/* Custom input focus styles */
+input:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}

@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en" class="dark">
+	<head>
+		<style>
+			/* Custom paragraph spacing for markdown-rendered recommendations */
+			.prose p {
+				margin-bottom: 1.5em;
+			}
+		</style>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>EcoWatch</title>
+		<!-- Changed CSS paths to use relative paths instead of absolute -->
+		<link rel="stylesheet" href="./css/input.css" />
+		<link rel="stylesheet" href="./css/styles.css" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+		/>
+		<!-- Add Chart.js -->
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	</head>
+	<body
+		class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white min-h-screen"
+	>
+		<div class="container mx-auto px-4 py-8">
+			<!-- Header -->
+			<header class="flex justify-between items-center mb-8">
+				<h1
+					class="text-3xl font-bold text-blue-900 dark:text-blue-100 pb-2 mb-6 mt-4 border-b-2 border-gray-200 dark:border-gray-700"
+				>
+					<i class="fa-solid fa-bolt mr-2" style="color: #5bc0be"></i>EcoWatch
+				</h1>
+				<button
+					id="darkModeToggle"
+					class="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+				>
+					<i id="darkModeIcon" class="fa-solid fa-sun"></i>
+				</button>
+			</header>
+
+			<!-- Main Content -->
+			<main class="space-y-8">
+				<div class="flex flex-col md:flex-row gap-8">
+					<!-- Budget Container -->
+					<div class="flex flex-col gap-8">
+						<!-- Chart Controls -->
+						<div
+							class="flex justify-between items-center bg-white dark:bg-gray-800 rounded-lg p-4 shadow-md"
+						>
+							<h2 class="text-lg font-semibold">Energy Usage Overview</h2>
+						</div>
+
+						<!-- Budget Container -->
+						<section
+							class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md flex-grow"
+						>
+							<h2
+								class="text-xl font-semibold mb-4 pl-3 border-l-4 border-teal-400 dark:border-teal-600 text-blue-800 dark:text-blue-200"
+							>
+								Set Your Energy Budget
+							</h2>
+							<div class="space-y-4">
+								<div>
+									<label for="budget" class="block text-sm font-medium mb-1"
+										>Target Monthly Bill (RM)</label
+									>
+									<input
+										type="number"
+										id="budget"
+										class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+										value="100"
+									/>
+								</div>
+								<button
+									id="generateAIDemoData"
+									class="w-full mt-2 bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition-colors"
+								>
+									Generate AI Demo Data
+								</button>
+								<p
+									id="aiDemoStatus"
+									class="text-sm text-gray-500 mt-2"
+									style="display: none"
+								>
+									Generating AI demo data...
+								</p>
+							</div>
+						</section>
+						<!-- Tariff Editor Section -->
+						<section
+							id="tariffSection"
+							class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md flex-grow"
+						>
+							<h2
+								class="text-xl font-semibold mb-4 pl-3 border-l-4 border-teal-400 dark:border-teal-600 text-blue-800 dark:text-blue-200"
+							>
+								Set Tariff Rate (RM/kWh)
+							</h2>
+							<form
+								id="tariffForm"
+								class="flex flex-col md:flex-row items-center gap-4"
+							>
+								<label for="tariffRateInput" class="font-medium"
+									>Tariff Rate:</label
+								>
+								<input
+									type="number"
+									min="0"
+									step="0.01"
+									id="tariffRateInput"
+									class="border rounded px-2 py-1 w-32"
+								/>
+								<button
+									type="submit"
+									id="saveTariffBtn"
+									class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+								>
+									Save Tariff
+								</button>
+							</form>
+						</section>
+					</div>
+
+					<!-- Energy Usage vs Solar Generation Chart -->
+					<section
+						class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md w-full md:w-[70%]"
+					>
+						<h2
+							class="text-xl font-semibold mb-4 pl-3 border-l-4 border-teal-400 dark:border-teal-600 text-blue-800 dark:text-blue-200"
+						>
+							Energy Usage vs Solar Generation
+						</h2>
+						<!-- View Selection Buttons -->
+						<div class="flex justify-center space-x-4 mb-4" id="viewSelection">
+							<button
+								id="dayViewBtn"
+								class="px-4 py-2 rounded-md text-sm font-medium bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200"
+							>
+								Day
+							</button>
+							<button
+								id="weekViewBtn"
+								class="px-4 py-2 rounded-md text-sm font-medium bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200"
+							>
+								Week
+							</button>
+							<button
+								id="monthViewBtn"
+								class="px-4 py-2 rounded-md text-sm font-medium bg-blue-200 text-blue-700 dark:bg-blue-700 dark:text-blue-200"
+							>
+								Month
+							</button>
+						</div>
+						<div class="w-full">
+							<canvas id="energyChart" height="400px"></canvas>
+						</div>
+					</section>
+				</div>
+
+				<!-- Appliance List -->
+				<section
+					id="appliancesSection"
+					class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md"
+				>
+					<h2
+						class="text-xl font-semibold mb-4 pl-3 border-l-4 border-teal-400 dark:border-teal-600 text-blue-800 dark:text-blue-200"
+					>
+						Your Appliances
+					</h2>
+					<div id="appliancesList" class="space-y-4">
+						<!-- Appliances will be dynamically added here -->
+					</div>
+				</section>
+
+				<!-- Recommendations and Bill Overview Row -->
+				<div class="flex flex-col md:flex-row gap-8">
+					<!-- Recommendations Section -->
+					<section
+						id="recommendationsSection"
+						class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md w-full md:w-[70%]"
+					>
+						<h2
+							class="text-xl font-semibold mb-4 pl-3 border-l-4 border-teal-400 dark:border-teal-600 text-blue-800 dark:text-blue-200"
+						>
+							Energy Optimisation Recommendations
+						</h2>
+						<div
+							id="recommendations"
+							class="text-gray-700 dark:text-gray-300 prose dark:prose-invert prose-sm max-w-none"
+						>
+							Click "Generate AI Demo Data" to get started!
+						</div>
+						<div class="mt-4 flex items-center justify-between">
+							<div class="flex items-center space-x-2">
+								<span class="text-sm font-medium">Usage Mode:</span>
+								<button
+									id="usageModeToggle"
+									class="px-3 py-1.5 rounded-md text-sm font-medium bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+									data-mode="on-demand"
+								>
+									On-demand
+								</button>
+							</div>
+							<button
+								id="getAIRecommendations"
+								class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors"
+							>
+								Get AI Recommendations
+							</button>
+						</div>
+					</section>
+					<!-- Bill Overview Section -->
+					<section
+						id="billOverviewSection"
+						class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md w-full md:w-[30%] flex flex-col justify-between"
+					>
+						<h2
+							class="text-xl font-semibold mb-4 pl-3 border-l-4 border-teal-400 dark:border-teal-600 text-blue-800 dark:text-blue-200"
+						>
+							Bill Overview
+						</h2>
+						<div class="space-y-4">
+							<div class="flex items-center justify-between">
+								<span class="font-medium">Monthly Bill Estimate</span>
+								<span id="monthlyBillEstimate" class="font-bold text-2xl"
+									>RM 0.00</span
+								>
+							</div>
+							<div class="flex items-center justify-between">
+								<span class="font-medium">Bill After Solar Offset</span>
+								<span
+									id="billAfterSolar"
+									class="font-bold text-2xl"
+									style="color: #75cec5"
+									>RM 0.00</span
+								>
+							</div>
+							<div class="flex items-center justify-between">
+								<span class="font-medium">Monthly Target Bill</span>
+								<span id="monthlyTargetBill" class="font-bold text-2xl"
+									>RM 0.00</span
+								>
+							</div>
+							<div class="flex items-center justify-between">
+								<span class="font-medium">Result</span>
+								<span id="billComparisonResult" class="font-bold text-2xl"
+									>0%</span
+								>
+							</div>
+							<!-- Total Energy Usage Row -->
+							<div class="flex items-center justify-between">
+								<span class="font-medium">Total Energy Usage</span>
+								<span
+									id="totalEnergyUsage"
+									class="font-bold text-2xl text-energy-blue"
+									>0 kWh</span
+								>
+							</div>
+							<!-- Solar Contribution Row -->
+							<div class="flex items-center justify-between">
+								<span class="font-medium">Solar Contribution</span>
+								<span
+									id="solarContribution"
+									class="font-bold text-2xl text-solar-yellow"
+									>0 kWh</span
+								>
+							</div>
+						</div>
+					</section>
+				</div>
+			</main>
+
+			<!-- JavaScript Files -->
+			<!-- Changed JS imports to use relative paths instead of absolute -->
+			<script type="module" src="./js/data.js"></script>
+			<script type="module" src="./js/ui.js"></script>
+			<script type="module" src="./js/logic.js"></script>
+			<script type="module" src="./js/main.js"></script>
+		</div>
+		<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+	</body>
+</html>
