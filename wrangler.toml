@@ -1,0 +1,38 @@
+# Configuration for Cloudflare Pages with Functions
+name = "ecowatch"
+compatibility_date = "2023-12-01"
+
+# Pages build output directory
+pages_build_output_dir = "dist"
+
+# Environment variables for production
+[env.production]
+[env.production.vars]
+VITE_FIREBASE_ENV = "false"
+
+# Functions configuration for production
+[env.production.functions]
+directory = "./functions"
+
+# Secret bindings for production
+# Secret bindings must be added to the Cloudflare dashboard
+# These are just placeholders to indicate what secrets are needed
+[env.production.secrets]
+VITE_GEMINI_API_KEY = ""
+
+# Environment variables for preview
+[env.preview]
+[env.preview.vars]
+VITE_FIREBASE_ENV = "false"
+
+# Functions configuration for preview
+[env.preview.functions]
+directory = "./functions"
+
+# Secret bindings for preview
+[env.preview.secrets]
+VITE_GEMINI_API_KEY = ""
+
+# Note: Secrets are managed through the Cloudflare dashboard
+# The VITE_GEMINI_API_KEY secret should be set in the Cloudflare dashboard
+# under Environment Variables with the 'Encrypt' option enabled
